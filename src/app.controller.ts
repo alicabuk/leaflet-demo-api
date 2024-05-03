@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Response } from 'express';
+import * as path from 'path';
 
 @Controller('marker')
 export class AppController {
@@ -36,5 +38,11 @@ export class AppController {
     } catch (error) {
       return { success: false, message: error.message };
     }
+  }
+
+  @Get('/download')
+  async downloadData(@Res() res: Response) {
+    const file = path.resolve(__dirname, '..', '', 'data.json');
+    res.download(file);
   }
 }
